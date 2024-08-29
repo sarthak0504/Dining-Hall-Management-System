@@ -1,0 +1,114 @@
+.registrationPage {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Added padding for smaller screens */
+}
+
+.registration-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Adjusted width */
+    max-width: 400px; /* Set a maximum width */
+    margin: 0 auto; /* Center the container */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 10px; /* Increased padding for better touch interaction */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px; /* Adjusted font size */
+}
+
+button {
+    width: 100%;
+    padding: 12px; /* Increased padding for better touch interaction */
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px; /* Increased font size for better readability */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.role-specific {
+    display: none;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .registration-container {
+        padding: 15px;
+        width: 90%; /* Increase the width to utilize more space on smaller screens */
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    select {
+        font-size: 14px; /* Decrease font size for smaller screens */
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration-container {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    select {
+        font-size: 12px; /* Further decrease font size for very small screens */
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
