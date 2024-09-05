@@ -1,117 +1,187 @@
-import React from 'react'
-import '../pages/styles/registration.css'
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../pages/styles/registration.css';
+
 const Registration = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+    studentDetails: {
+      studentId: '',
+      department: '',
+      year: ''
+    },
+    facultyDetails: {
+      facultyId: '',
+      facultyDept: '',
+      designation: ''
+    },
+    managerDetails: {
+      managerId: '',
+      shift: '',
+      experience: ''
+    },
+    staffDetails: {
+      staffId: '',
+      jobTitle: '',
+      staffShift: ''
+    }
+  });
+
+  const [showDetails, setShowDetails] = useState(false);
+
+  const handleRoleChange = (e) => {
+    const { value } = e.target;
+    setFormData({ ...formData, role: value });
+    setShowDetails(true); // Show dropdown on role selection
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    axios.post('http://localhost:5000/api/user/registration', formData)
+      .then((response) => {
+        alert('Registration successful');
+        setFormData({});
+      })
+      .catch((error) => {
+        console.error('There was an error!', error);
+      });
+      
+  };
+
   return (
     <div className='registrationPage'>
-            <div class="registration-container">
+      <div className="registration-container">
         <h2>Registration form</h2>
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" required/>
-            </div>
-            <div class="form-group">
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" required/>
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" required/>
-            </div>
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required/>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required/>
-            </div>
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password:</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" required/>
-            </div>
-            <div class="form-group">
-                <label for="role">User Role:</label>
-                <select id="role" name="role" required onchange="displayRoleSpecificFields()">
-                    <option value="" disabled selected>Select your role</option>
-                    <option value="student">Student</option>
-                    <option value="faculty">Faculty</option>
-                    <option value="manager">Mess Manager</option>
-                    <option value="staff">Mess Staff</option>
-                </select>
-            </div>
+        <form id="registrationForm" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">Email Address:</label>
+            <input type="email" id="email" name="email" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" name="username" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input type="password" id="password" name="password" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="role">User Role:</label>
+            <select id="role" name="role" required onChange={handleRoleChange}>
+              <option value="" disabled selected>Select your role</option>
+              <option value="student">Student</option>
+              <option value="faculty">Faculty</option>
+              <option value="manager">Mess Manager</option>
+              <option value="staff">Mess Staff</option>
+            </select>
+          </div>
 
-            {/* <!-- Student-specific fields --> */}
-            <div id="studentFields" class="role-specific">
-                <div class="form-group">
-                    <label for="studentId">Student ID Number:</label>
-                    <input type="text" id="studentId" name="studentId"/>
+          {showDetails && (
+            <div className="role-details-dropdown">
+              {formData.role === 'student' && (
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="studentId">Student ID Number:</label>
+                    <input type="text" id="studentId" name="studentId" value={formData.studentDetails.studentId} onChange={(e) => setFormData({ ...formData, studentDetails: { ...formData.studentDetails, studentId: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="department">Department/Program:</label>
+                    <input type="text" id="department" name="department" value={formData.studentDetails.department} onChange={(e) => setFormData({ ...formData, studentDetails: { ...formData.studentDetails, department: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="year">Year of Study:</label>
+                    <input type="text" id="year" name="year" value={formData.studentDetails.year} onChange={(e) => setFormData({ ...formData, studentDetails: { ...formData.studentDetails, year: e.target.value } })} />
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="department">Department/Program:</label>
-                    <input type="text" id="department" name="department"/>
-                </div>
-                <div class="form-group">
-                    <label for="year">Year of Study:</label>
-                    <input type="text" id="year" name="year"/>
-                </div>
-            </div>
+              )}
 
-            {/* <!-- Faculty-specific fields --> */}
-            <div id="facultyFields" class="role-specific">
-                <div class="form-group">
-                    <label for="facultyId">Faculty ID Number:</label>
-                    <input type="text" id="facultyId" name="facultyId"/>
+              {formData.role === 'faculty' && (
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="facultyId">Faculty ID Number:</label>
+                    <input type="text" id="facultyId" name="facultyId" value={formData.facultyDetails.facultyId} onChange={(e) => setFormData({ ...formData, facultyDetails: { ...formData.facultyDetails, facultyId: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="facultyDept">Department:</label>
+                    <input type="text" id="facultyDept" name="facultyDept" value={formData.facultyDetails.facultyDept} onChange={(e) => setFormData({ ...formData, facultyDetails: { ...formData.facultyDetails, facultyDept: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="designation">Designation:</label>
+                    <input type="text" id="designation" name="designation" value={formData.facultyDetails.designation} onChange={(e) => setFormData({ ...formData, facultyDetails: { ...formData.facultyDetails, designation: e.target.value } })} />
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="facultyDept">Department:</label>
-                    <input type="text" id="facultyDept" name="facultyDept"/>
-                </div>
-                <div class="form-group">
-                    <label for="designation">Designation:</label>
-                    <input type="text" id="designation" name="designation"/>
-                </div>
-            </div>
+              )}
 
-            {/* <!-- Mess Manager-specific fields --> */}
-            <div id="managerFields" class="role-specific">
-                <div class="form-group">
-                    <label for="managerId">Employee ID Number:</label>
-                    <input type="text" id="managerId" name="managerId"/>
+              {formData.role === 'manager' && (
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="managerId">Employee ID Number:</label>
+                    <input type="text" id="managerId" name="managerId" value={formData.managerDetails.managerId} onChange={(e) => setFormData({ ...formData, managerDetails: { ...formData.managerDetails, managerId: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="shift">Work Shift:</label>
+                    <input type="text" id="shift" name="shift" value={formData.managerDetails.shift} onChange={(e) => setFormData({ ...formData, managerDetails: { ...formData.managerDetails, shift: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="experience">Years of Experience:</label>
+                    <input type="text" id="experience" name="experience" value={formData.managerDetails.experience} onChange={(e) => setFormData({ ...formData, managerDetails: { ...formData.managerDetails, experience: e.target.value } })} />
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="shift">Work Shift:</label>
-                    <input type="text" id="shift" name="shift"/>
-                </div>
-                <div class="form-group">
-                    <label for="experience">Years of Experience:</label>
-                    <input type="text" id="experience" name="experience"/>
-                </div>
-            </div>
+              )}
 
-            {/* <!-- Mess Staff-specific fields --> */}
-            <div id="staffFields" class="role-specific">
-                <div class="form-group">
-                    <label for="staffId">Employee ID Number:</label>
-                    <input type="text" id="staffId" name="staffId"/>
+              {formData.role === 'staff' && (
+                <div>
+                  <div className="form-group">
+                    <label htmlFor="staffId">Staff ID Number:</label>
+                    <input type="text" id="staffId" name="staffId" value={formData.staffDetails.staffId} onChange={(e) => setFormData({ ...formData, staffDetails: { ...formData.staffDetails, staffId: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="jobTitle">Job Title:</label>
+                    <input type="text" id="jobTitle" name="jobTitle" value={formData.staffDetails.jobTitle} onChange={(e) => setFormData({ ...formData, staffDetails: { ...formData.staffDetails, jobTitle: e.target.value } })} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="staffShift">Work Shift:</label>
+                    <input type="text" id="staffShift" name="staffShift" value={formData.staffDetails.staffShift} onChange={(e) => setFormData({ ...formData, staffDetails: { ...formData.staffDetails, staffShift: e.target.value } })} />
+                  </div>
                 </div>
-                <div class="form-group">
-                    <label for="jobTitle">Job Title:</label>
-                    <input type="text" id="jobTitle" name="jobTitle"/>
-                </div>
-                <div class="form-group">
-                    <label for="staffShift">Work Shift:</label>
-                    <input type="text" id="staffShift" name="staffShift"/>
-                </div>
+              )}
             </div>
+          )}
 
-            <div class="form-group">
-                <button type="submit">Register</button>
-            </div>
+          <button type="submit" className="btn">Register</button>
         </form>
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Registration
+export default Registration;

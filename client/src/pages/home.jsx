@@ -1,18 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../pages/styles/home.css'
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
 const HomePage = () => {
+ 
+  const [user,setUser]=useState(null);
+  useEffect(()=>{
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    const fetchUser = async ()=>{
+      const response = await axios.get(`http://localhost:5000/api/user/${userId}`);
+      setUser(response.data);
+     }
+     fetchUser();
+  },[])
+
     return (
         <div>
           <header>
             <nav>
               <div className="logo">DH Management System</div>
               <ul>
-                <li><a href="/home.html">Home</a></li>
-                <li><a href="/menu.html">Menu</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/menu">Menu</a></li>
                 <li><a href="#">Subscription</a></li>
                 <li><a href="#">Thali Token</a></li>
                 <li><a href="#">Feedback</a></li>
-                <li><a href="/Login/index.html">Login</a></li>
+                {!user&&(<li><a href="/login">Login</a></li>)}
+                <li>{user&&user.username}</li>
               </ul>
             </nav>
           </header>
@@ -20,7 +36,7 @@ const HomePage = () => {
           <section className="hero">
             <h1>Welcome to the DH Management System</h1>
             <p>Manage your dining experience effortlessly.</p>
-            <a href="#" className="cta-button">Get Started</a>
+            <a href="/registration" className="cta-button">Get Started</a>
           </section>
     
           <section className="features">
