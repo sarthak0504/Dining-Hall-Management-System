@@ -6,6 +6,7 @@ import Registration from './pages/registration';
 import MenuPage from './pages/menu';
 import HomePage from './pages/home';
 import Feedback from './pages/feedback';
+import Payment from './pages/payment';
 function App() {
   
 
@@ -18,6 +19,7 @@ function App() {
          <Route path='/registration' exact element={<Registration/>}/>
          <Route path='/menu' exact element={<MenuPage/>}/>
          <Route path='/feedback' exact element={<Feedback/>}/>
+         <Route path='/payment' exact element={<Payment/>}/>
          <Route path='/' exact element={<HomePage/>}/>
          </Routes>
        </Router>
