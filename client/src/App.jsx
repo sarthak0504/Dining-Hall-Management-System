@@ -8,6 +8,9 @@ import HomePage from './pages/home';
 import Feedback from './pages/feedback';
 import Payment from './pages/payment';
 import ViewProfile from './pages/viewProfile';
+import RegistrationManager from './pages/mangerRegistration';
+import LoginManager from './pages/managerLogin';
+import ManagerHomePage from './pages/managerHome';
 function App() {
   
 
@@ -22,6 +25,9 @@ function App() {
          <Route path='/feedback' exact element={<Feedback/>}/>
          <Route path='/payment' exact element={<Payment/>}/>
          <Route path='/viewProfile' exact element={<ViewProfile/>}/>
+         <Route path='/managerRegister' exact element={<RegistrationManager/>}/>
+         <Route path='/managerLogin' exact element={<LoginManager/>}/>
+         <Route path='/managerHome' exact element={<ManagerHomePage/>}/>
          <Route path='/' exact element={<HomePage/>}/>
          </Routes>
        </Router>
