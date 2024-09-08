@@ -7,6 +7,7 @@ import MenuPage from './pages/menu';
 import HomePage from './pages/home';
 import Feedback from './pages/feedback';
 import Payment from './pages/payment';
+import ViewProfile from './pages/viewProfile';
 function App() {
   
 
@@ -20,6 +21,7 @@ function App() {
          <Route path='/menu' exact element={<MenuPage/>}/>
          <Route path='/feedback' exact element={<Feedback/>}/>
          <Route path='/payment' exact element={<Payment/>}/>
+         <Route path='/viewProfile' exact element={<ViewProfile/>}/>
          <Route path='/' exact element={<HomePage/>}/>
          </Routes>
        </Router>

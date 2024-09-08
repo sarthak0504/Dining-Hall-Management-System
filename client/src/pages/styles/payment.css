@@ -29,6 +29,7 @@
   
   .plan.selected, .method.selected {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: rgb(119, 112, 112);
   }
   
   .plan h3, .method h3 {
@@ -56,10 +57,12 @@
   @media (max-width: 768px) {
     .plan-options, .payment-methods {
       flex-direction: column;
+      
     }
   
     .plan, .method {
       margin-bottom: 15px;
+      
     }
   }
   
